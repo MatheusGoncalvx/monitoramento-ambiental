@@ -1,0 +1,10 @@
+{
+  "name": "monitor-ambiental",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "express": "^5.1.0",
+    "mysql2": "^3.14.0",
+    "csv-parse": "^6.1.0"
+  }
+}

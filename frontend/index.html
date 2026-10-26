@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+
+>
+
+  <title>IDÁ — Identificador de Dados Ambientais</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  >
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+  </script>
+
+</head>
+
+<body class="bg-slate-950 text-white min-h-screen">
+
+
+<!-- =====================================================
+     CABEÇALHO DA PLATAFORMA
+     ===================================================== -->
+
+<header class="bg-slate-900 border-b border-slate-800">
+
+  <!-- NAVBAR DA LOGO -->
+  <div class="px-6 py-2 flex items-center justify-center">
+    <img
+      src="https://i.ibb.co/C30yFfp0/logo-IDA.png"
+      alt="Logo IDÁ"
+      class="w-14 h-14 object-contain"
+    >
+  </div>
+
+  <!-- MENU SEPARADO DA LOGO -->
+  <div class="bg-slate-950 border-t border-slate-800">
+    <nav class="flex flex-wrap justify-center items-center gap-2 px-4 py-2">
+
+      <a
+        href="/"
+        class="px-4 py-2 rounded-lg bg-emerald-500 text-slate-950 text-sm font-bold hover:bg-emerald-400 transition"
+      >
+        Início
+      </a>
+
+      <a
+        href="/prioridades.html"
+        class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition"
+      >
+        Prioridades
+      </a>
+
+      <a
+        href="/ocorrencias.html"
+        class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition"
+      >
+        Ocorrências
+      </a>
+
+    </nav>
+  </div>
+
+</header>
+
+  <!-- =====================================================
+       CONTEÚDO PRINCIPAL
+       ===================================================== -->
+
+  <main class="max-w-7xl mx-auto px-6 py-6">
+
+<!-- STATUS -->
+
+<div class="
+  flex
+  flex-col
+  md:flex-row
+  md:items-center
+  md:justify-between
+  gap-2
+  mb-6
+">
+
+  <div>
+
+    <h2 class="
+      text-xl
+      font-bold
+    ">
+      Painel de Monitoramento
+    </h2>
+
+    <p class="
+      text-sm
+      text-slate-400
+    ">
+      Acompanhamento de ocorrências ambientais
+    </p>
+
+  </div>
+
+
+  <div class="text-right">
+
+    <div
+      id="status"
+      class="text-sm text-emerald-400 font-semibold"
+    >
+      ● Conectando...
+    </div>
+
+    <div
+      id="hora"
+      class="text-xs text-slate-500"
+    >
+      Aguardando atualização
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ===================================================
+     CARDS
+     =================================================== -->
+
+<div class="
+  grid
+  grid-cols-1
+  md:grid-cols-2
+  lg:grid-cols-4
+  gap-4
+  mb-6
+">
+
+
+  <!-- TOTAL -->
+
+  <div class="
+    bg-slate-900
+    border border-slate-800
+    rounded-xl
+    p-5
+  ">
+
+    <p class="text-sm text-slate-400">
+      Total de ocorrências
+    </p>
+
+    <p
+      id="total"
+      class="
+        text-3xl
+        font-black
+        mt-2
+      "
+    >
+      0
+    </p>
+
+  </div>
+
+
+  <!-- FOCOS -->
+
+  <div class="
+    bg-slate-900
+    border border-slate-800
+    rounded-xl
+    p-5
+  ">
+
+    <p class="text-sm text-slate-400">
+      Focos de calor
+    </p>
+
+    <p
+      id="focos"
+      class="
+        text-3xl
+        font-black
+        mt-2
+      "
+    >
+      0
+    </p>
+
+  </div>
+
+
+  <!-- DESMATAMENTO -->
+
+  <div class="
+    bg-slate-900
+    border border-slate-800
+    rounded-xl
+    p-5
+  ">
+
+    <p class="text-sm text-slate-400">
+      Desmatamento
+    </p>
+
+    <p
+      id="desmatamento"
+      class="
+        text-3xl
+        font-black
+        mt-2
+      "
+    >
+      0
+    </p>
+
+  </div>
+
+
+  <!-- CRÍTICAS -->
+
+  <div class="
+    bg-slate-900
+    border border-slate-800
+    rounded-xl
+    p-5
+  ">
+
+    <p class="text-sm text-slate-400">
+      Ocorrências críticas
+    </p>
+
+    <p
+      id="criticas"
+      class="
+        text-3xl
+        font-black
+        mt-2
+      "
+    >
+      0
+    </p>
+
+  </div>
+
+</div>
+
+
+<!-- ===================================================
+     MAPA
+     =================================================== -->
+
+<section class="
+  bg-slate-900
+  border border-slate-800
+  rounded-xl
+  overflow-hidden
+  mb-6
+">
+
+  <div class="p-4 border-b border-slate-800">
+
+    <h2 class="font-bold">
+      Mapa das ocorrências
+    </h2>
+
+    <div class="
+      grid
+      md:grid-cols-2
+      gap-4
+    ">
+
+
+      <!-- FILTRO BIOMA -->
+
+      <div>
+
+        <label
+          class="
+            block
+            text-sm
+            font-semibold
+            mb-2
+          "
+        >
+          Bioma
+        </label>
+
+        <select
+          id="filtroBioma"
+          onchange="aplicarFiltros()"
+          class="
+            w-full
+            bg-slate-800
+            border
+            border-slate-700
+            rounded-lg
+            p-2
+          "
+        >
+
+          <option value="TODOS">
+            Todos os biomas
+          </option>
+
+          <option value="AMAZÔNIA">
+            Amazônia
+          </option>
+
+          <option value="CERRADO">
+            Cerrado
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- FILTRO TIPO -->
+
+      <div>
+
+        <label
+          class="
+            block
+            text-sm
+            font-semibold
+            mb-2
+          "
+        >
+          Tipo de ocorrência
+        </label>
+
+        <select
+          id="filtroTipo"
+          onchange="aplicarFiltros()"
+          class="
+            w-full
+            bg-slate-800
+            border
+            border-slate-700
+            rounded-lg
+            p-2
+          "
+        >
+
+          <option value="TODOS">
+            Todos os tipos
+          </option>
+
+          <option value="FOCO_CALOR">
+            🔥 Foco de calor
+          </option>
+
+          <option value="DESMATAMENTO">
+            🌳 Desmatamento
+          </option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+
+    <!-- LEGENDA -->
+
+    <div class="
+      flex
+      flex-wrap
+      gap-4
+      mt-4
+      text-sm
+      text-slate-300
+    ">
+
+      <span>
+        🏢 Base de fiscalização
+      </span>
+    </div>
+
+  </div>
+
+
+  <div
+    id="map"
+    class="h-[600px] w-full"
+  ></div>
+
+</section>
+
+
+<!-- ===================================================
+     GRÁFICO DE OCORRÊNCIAS POR DIA
+     =================================================== -->
+
+<section class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-6">
+
+  <div class="mb-5">
+    <h2 class="text-lg font-bold">
+      Evolução diária das ocorrências
+    </h2>
+
+    <p class="text-sm text-slate-400 mt-1">
+      Quantidade de ocorrências registradas por dia
+    </p>
+  </div>
+
+  <div class="relative w-full h-[320px]">
+    <canvas id="graficoOcorrencias"></canvas>
+  </div>
+
+</section>
+
+  </main>
+
+  <!-- =====================================================
+       JAVASCRIPT DO DASHBOARD
+       ===================================================== -->
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js"></script>
+
+</body>
+
+</html>

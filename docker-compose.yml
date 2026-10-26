@@ -1,0 +1,45 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: monitor-mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: monitor_ambiental
+    ports:
+      - "127.0.0.1:3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./database:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "--silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  app:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: monitor-app
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: monitor_ambiental
+      MYSQL_USER: root
+      MYSQL_PASSWORD: ""
+
+      SYNC_MINUTES: 10
+      INPE_URL: https://queimadas.dgi.inpe.br/queimadas/portal/csv/focos_qmd_inpe_24h.csv
+      DETER_WFS: https://terrabrasilis.dpi.inpe.br/geoserver/ows
+      DETER_USER: ""
+      DETER_PASSWORD: ""
+
+volumes:
+  mysql-data:
+  oracle-data:

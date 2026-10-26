@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Prioridades - Monitoramento Ambiental</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(16, 185, 129, 0.08), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.06), transparent 30%),
+        #020617;
+    }
+
+    .glass {
+      background: rgba(15, 23, 42, 0.82);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+    }
+
+    .card-hover {
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-2px);
+      border-color: rgba(148, 163, 184, 0.28);
+    }
+
+    select {
+      color-scheme: dark;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen text-slate-100">
+
+  <!-- ========================================================= -->
+  <!-- NAVBAR -->
+  <!-- ========================================================= -->
+
+  <header class="bg-slate-900 border-b border-slate-800">
+
+  <!-- NAVBAR DA LOGO -->
+  <div class="px-6 py-2 flex items-center justify-center">
+    <img
+      src="https://i.ibb.co/C30yFfp0/logo-IDA.png"
+      alt="Logo IDÁ"
+      class="w-14 h-14 object-contain"
+    >
+  </div>
+
+  <!-- MENU SEPARADO DA LOGO -->
+  <div class="bg-slate-950 border-t border-slate-800">
+    <nav class="flex flex-wrap justify-center items-center gap-2 px-4 py-2">
+
+      <a
+        href="/"
+        class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition"
+      >
+        Início
+      </a>
+
+      <a
+        href="/prioridades.html"
+        class="px-4 py-2 rounded-lg bg-emerald-500 text-slate-950 text-sm font-bold hover:bg-emerald-400 transition"
+      >
+        Prioridades
+      </a>
+
+      <a
+        href="/ocorrencias.html"
+        class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition"
+      >
+        Ocorrências
+      </a>
+
+    </nav>
+  </div>
+
+</header>
+
+  <!-- ========================================================= -->
+  <!-- CONTEÚDO PRINCIPAL -->
+  <!-- ========================================================= -->
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+
+    <!-- CABEÇALHO -->
+
+    <section class="mb-8">
+
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+
+        <div>
+
+          <p class="
+            text-sm
+            font-semibold
+            text-emerald-400
+            uppercase
+            tracking-wider
+            mb-2
+          ">
+            Gestão operacional
+          </p>
+
+          <h2 class="
+            text-3xl
+            sm:text-4xl
+            font-bold
+            tracking-tight
+            text-white
+          ">
+            Prioridades
+          </h2>
+
+          <p class="
+            mt-2
+            text-slate-400
+            max-w-2xl
+          ">
+            Visualização das ocorrências classificadas por nível de prioridade,
+            permitindo filtrar os dados por bioma, tipo e prioridade.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- FILTROS -->
+    <!-- ========================================================= -->
+
+    <section class="glass rounded-2xl p-5 mb-8">
+
+      <div class="
+        grid
+        grid-cols-1
+        md:grid-cols-2
+        lg:grid-cols-3
+        gap-4
+      ">
+
+        <!-- FILTRO BIOMA -->
+
+        <div>
+
+          <label
+            for="filtroBioma"
+            class="
+              block
+              text-sm
+              font-medium
+              text-slate-300
+              mb-2
+            "
+          >
+            Bioma
+          </label>
+
+          <select
+            id="filtroBioma"
+            class="
+              w-full
+              rounded-xl
+              border
+              border-slate-700
+              bg-slate-900
+              px-4
+              py-3
+              text-sm
+              text-white
+              outline-none
+              focus:border-emerald-500
+              focus:ring-2
+              focus:ring-emerald-500/20
+            "
+          >
+
+            <option value="TODOS">
+              Todos os biomas
+            </option>
+
+            <option value="AMAZONIA">
+              Amazônia
+            </option>
+
+            <option value="CERRADO">
+              Cerrado
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- FILTRO TIPO -->
+
+        <div>
+
+          <label
+            for="filtroTipo"
+            class="
+              block
+              text-sm
+              font-medium
+              text-slate-300
+              mb-2
+            "
+          >
+            Tipo
+          </label>
+
+          <select
+            id="filtroTipo"
+            class="
+              w-full
+              rounded-xl
+              border
+              border-slate-700
+              bg-slate-900
+              px-4
+              py-3
+              text-sm
+              text-white
+              outline-none
+              focus:border-emerald-500
+              focus:ring-2
+              focus:ring-emerald-500/20
+            "
+          >
+
+            <option value="TODOS">
+              Todos os tipos
+            </option>
+
+            <option value="FOCO">
+              Foco de calor
+            </option>
+
+            <option value="DESMATAMENTO">
+              Desmatamento
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- FILTRO PRIORIDADE -->
+
+        <div>
+
+          <label
+            for="filtroPrioridade"
+            class="
+              block
+              text-sm
+              font-medium
+              text-slate-300
+              mb-2
+            "
+          >
+            Prioridade
+          </label>
+
+          <select
+            id="filtroPrioridade"
+            class="
+              w-full
+              rounded-xl
+              border
+              border-slate-700
+              bg-slate-900
+              px-4
+              py-3
+              text-sm
+              text-white
+              outline-none
+              focus:border-emerald-500
+              focus:ring-2
+              focus:ring-emerald-500/20
+            "
+          >
+
+            <option value="TODOS">
+              Todas as prioridades
+            </option>
+
+            <option value="CRITICA">
+              🔴 Crítica
+            </option>
+
+            <option value="ALTA">
+              🟠 Alta
+            </option>
+
+            <option value="MEDIA">
+              🟡 Média
+            </option>
+
+            <option value="BAIXA">
+              🟢 Baixa
+            </option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- CARDS DE PRIORIDADE -->
+    <!-- ========================================================= -->
+
+    <section class="mb-8">
+
+      <div class="flex items-center justify-between mb-4">
+
+        <div>
+
+          <h3 class="text-lg font-semibold text-white">
+            Resumo por prioridade
+          </h3>
+
+          <p class="text-sm text-slate-500">
+            Quantidade de ocorrências conforme os filtros selecionados.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="
+        grid
+        grid-cols-1
+        sm:grid-cols-2
+        xl:grid-cols-4
+        gap-4
+      ">
+
+        <!-- CRÍTICAS -->
+
+        <div class="
+          glass
+          card-hover
+          rounded-2xl
+          p-5
+          border-l-4
+          border-l-red-500
+        ">
+
+          <div class="flex items-start justify-between">
+
+            <div>
+
+              <p class="
+                text-sm
+                font-medium
+                text-slate-400
+              ">
+                Críticas
+              </p>
+
+              <p
+                id="totalCriticas"
+                class="
+                  mt-2
+                  text-4xl
+                  font-bold
+                  text-white
+                "
+              >
+                0
+              </p>
+
+            </div>
+
+            <div class="
+              w-11
+              h-11
+              rounded-xl
+              bg-red-500/10
+              border
+              border-red-500/20
+              flex
+              items-center
+              justify-center
+              text-xl
+            ">
+              🔴
+            </div>
+
+          </div>
+
+          <p class="mt-4 text-xs text-slate-500">
+            Prioridade crítica
+          </p>
+
+        </div>
+
+
+        <!-- ALTAS -->
+
+        <div class="
+          glass
+          card-hover
+          rounded-2xl
+          p-5
+          border-l-4
+          border-l-orange-500
+        ">
+
+          <div class="flex items-start justify-between">
+
+            <div>
+
+              <p class="
+                text-sm
+                font-medium
+                text-slate-400
+              ">
+                Altas
+              </p>
+
+              <p
+                id="totalAltas"
+                class="
+                  mt-2
+                  text-4xl
+                  font-bold
+                  text-white
+                "
+              >
+                0
+              </p>
+
+            </div>
+
+            <div class="
+              w-11
+              h-11
+              rounded-xl
+              bg-orange-500/10
+              border
+              border-orange-500/20
+              flex
+              items-center
+              justify-center
+              text-xl
+            ">
+              🟠
+            </div>
+
+          </div>
+
+          <p class="mt-4 text-xs text-slate-500">
+            Prioridade alta
+          </p>
+
+        </div>
+
+
+        <!-- MÉDIAS -->
+
+        <div class="
+          glass
+          card-hover
+          rounded-2xl
+          p-5
+          border-l-4
+          border-l-yellow-500
+        ">
+
+          <div class="flex items-start justify-between">
+
+            <div>
+
+              <p class="
+                text-sm
+                font-medium
+                text-slate-400
+              ">
+                Médias
+              </p>
+
+              <p
+                id="totalMedias"
+                class="
+                  mt-2
+                  text-4xl
+                  font-bold
+                  text-white
+                "
+              >
+                0
+              </p>
+
+            </div>
+
+            <div class="
+              w-11
+              h-11
+              rounded-xl
+              bg-yellow-500/10
+              border
+              border-yellow-500/20
+              flex
+              items-center
+              justify-center
+              text-xl
+            ">
+              🟡
+            </div>
+
+          </div>
+
+          <p class="mt-4 text-xs text-slate-500">
+            Prioridade média
+          </p>
+
+        </div>
+
+
+        <!-- BAIXAS -->
+
+        <div class="
+          glass
+          card-hover
+          rounded-2xl
+          p-5
+          border-l-4
+          border-l-emerald-500
+        ">
+
+          <div class="flex items-start justify-between">
+
+            <div>
+
+              <p class="
+                text-sm
+                font-medium
+                text-slate-400
+              ">
+                Baixas
+              </p>
+
+              <p
+                id="totalBaixas"
+                class="
+                  mt-2
+                  text-4xl
+                  font-bold
+                  text-white
+                "
+              >
+                0
+              </p>
+
+            </div>
+
+            <div class="
+              w-11
+              h-11
+              rounded-xl
+              bg-emerald-500/10
+              border
+              border-emerald-500/20
+              flex
+              items-center
+              justify-center
+              text-xl
+            ">
+              🟢
+            </div>
+
+          </div>
+
+          <p class="mt-4 text-xs text-slate-500">
+            Prioridade baixa
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    
+<!-- ========================================================= -->
+<!-- TABELA -->
+<!-- ========================================================= -->
+
+<!-- BOTÃO DE ATUALIZAR, FORA DO PAINEL -->
+<div class="flex justify-end items-center gap-3 mb-4">
+
+  <div
+    id="ultimaAtualizacao"
+    class="text-xs text-slate-500"
+  >
+    Carregando dados...
+  </div>
+
+  <button
+    id="btnAtualizar"
+    type="button"
+    class="px-4 py-2 rounded-lg text-sm font-semibold
+           bg-emerald-500/10 border border-emerald-500/20
+           text-emerald-400 hover:bg-emerald-500/20 transition"
+  >
+    ↻ Atualizar
+  </button>
+
+</div>
+
+<!-- PAINEL DA TABELA -->
+<section class="glass rounded-2xl overflow-hidden">
+
+      <!-- ÁREA DA TABELA -->
+
+      <div class="overflow-x-auto">
+
+        <table class="
+          w-full
+          min-w-[900px]
+          text-sm
+        ">
+
+          <thead class="bg-slate-900/80">
+
+            <tr class="border-b border-slate-800">
+
+              <th class="
+                p-3
+                text-left
+                font-semibold
+                text-slate-300
+                whitespace-nowrap
+              ">
+                Prioridade
+              </th>
+
+              <th class="
+                p-3
+                text-left
+                font-semibold
+                text-slate-300
+                whitespace-nowrap
+              ">
+                Tipo
+              </th>
+
+              <th class="
+                p-3
+                text-left
+                font-semibold
+                text-slate-300
+                whitespace-nowrap
+              ">
+                Bioma
+              </th>
+
+              <th class="
+                p-3
+                text-left
+                font-semibold
+                text-slate-300
+                whitespace-nowrap
+              ">
+                Local
+              </th>
+
+              <th class="
+                p-3
+                text-left
+                font-semibold
+                text-slate-300
+                whitespace-nowrap
+              ">
+                Latitude
+              </th>
+
+              <th class="
+                p-3
+                text-left
+                font-semibold
+                text-slate-300
+                whitespace-nowrap
+              ">
+                Longitude
+              </th>
+
+              <th class="
+                p-3
+                text-left
+                font-semibold
+                text-slate-300
+                whitespace-nowrap
+              ">
+                Score
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody
+            id="tabelaPrioridades"
+            class="divide-y divide-slate-800"
+          >
+
+            <tr>
+
+              <td
+                colspan="7"
+                class="
+                  p-10
+                  text-center
+                  text-slate-500
+                "
+              >
+                Carregando ocorrências...
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- RODAPÉ INFORMATIVO -->
+    <!-- ========================================================= -->
+
+    <section class="mt-6">
+
+      <div class="
+        rounded-xl
+        border
+        border-slate-800
+        bg-slate-900/40
+        px-4
+        py-3
+      ">
+
+        <p class="text-xs text-slate-500">
+          Os dados apresentados são atualizados automaticamente pelo sistema
+          de monitoramento. O nível de prioridade exibido corresponde à
+          classificação registrada para cada ocorrência.
+        </p>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- ========================================================= -->
+  <!-- JAVASCRIPT DA PÁGINA -->
+  <!-- ========================================================= -->
+
+  <script src="prioridades.js"></script>
+
+</body>
+
+</html>

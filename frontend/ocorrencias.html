@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Ocorrências</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Biblioteca para gerar Excel -->
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+
+</head>
+
+
+<body class="bg-slate-950 text-slate-200 min-h-screen">
+
+<!-- =====================================================
+     CABEÇALHO
+     ===================================================== -->
+
+<header class="bg-slate-900 border-b border-slate-800">
+
+  <!-- NAVBAR DA LOGO -->
+  <div class="px-6 py-2 flex items-center justify-center">
+    <img
+      src="https://i.ibb.co/C30yFfp0/logo-IDA.png"
+      alt="Logo IDÁ"
+      class="w-14 h-14 object-contain"
+    >
+  </div>
+
+<!-- MENU SEPARADO DA LOGO -->
+<div class="bg-slate-950 border-t border-slate-800 px-4 py-2">
+
+  <div class="relative flex items-center justify-center min-h-10">
+
+    <!-- MENU CENTRALIZADO -->
+    <nav class="flex flex-wrap justify-center items-center gap-2">
+
+      <a
+        href="/"
+        class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition"
+      >
+        Início
+      </a>
+
+      <a
+        href="/prioridades.html"
+        class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition"
+      >
+        Prioridades
+      </a>
+
+      <a
+        href="/ocorrencias.html"
+        class="px-4 py-2 rounded-lg bg-emerald-500 text-slate-950 text-sm font-bold hover:bg-emerald-400 transition"
+      >
+        Ocorrências
+      </a>
+
+    </nav>
+
+    <!-- EXCEL NO CANTO DIREITO -->
+    <button
+      id="btnExcel"
+      class="absolute right-0 top-1/2 -translate-y-1/2 bg-green-600 hover:bg-green-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition whitespace-nowrap"
+    >
+      ↓ Baixar Excel
+    </button>
+
+  </div>
+
+</div>
+
+</header>
+
+  <!-- =====================================================
+       CONTEÚDO
+       ===================================================== -->
+
+<main class="w-full max-w-none px-6 py-6">
+
+    <!-- ===================================================
+         FILTROS
+         =================================================== -->
+
+    <div
+      class="
+        bg-slate-900
+        border
+        border-slate-800
+        rounded-xl
+        p-5
+        mb-6
+      "
+    >
+
+      <div
+        class="
+          grid
+          grid-cols-1
+          md:grid-cols-3
+          gap-4
+        "
+      >
+
+
+        <!-- TIPO -->
+
+        <div>
+
+          <label
+            class="
+              block
+              text-sm
+              font-medium
+              text-slate-400
+              mb-2
+            "
+          >
+            Tipo de ocorrência
+          </label>
+
+          <select
+            id="filtroTipo"
+            class="
+              w-full
+              bg-slate-800
+              border
+              border-slate-700
+              rounded-lg
+              px-3
+              py-2
+              outline-none
+              focus:border-blue-500
+            "
+          >
+
+            <option value="TODOS">
+              Todos
+            </option>
+
+            <option value="FOCO">
+              Foco de calor
+            </option>
+
+            <option value="DESMATAMENTO">
+              Desmatamento
+            </option>
+
+          </select>
+
+        </div>
+
+
+
+        <!-- BIOMA -->
+
+        <div>
+
+          <label
+            class="
+              block
+              text-sm
+              font-medium
+              text-slate-400
+              mb-2
+            "
+          >
+            Bioma
+          </label>
+
+          <select
+            id="filtroBioma"
+            class="
+              w-full
+              bg-slate-800
+              border
+              border-slate-700
+              rounded-lg
+              px-3
+              py-2
+              outline-none
+              focus:border-blue-500
+            "
+          >
+
+            <option value="TODOS">
+              Todos
+            </option>
+
+            <option value="AMAZONIA">
+              Amazônia
+            </option>
+
+            <option value="CERRADO">
+              Cerrado
+            </option>
+
+          </select>
+
+        </div>
+
+
+
+        <!-- STATUS -->
+<div>
+  <label
+    class="block text-sm font-medium text-slate-400 mb-2"
+    for="filtroStatus"
+  >
+    Status
+  </label>
+
+  <select
+    id="filtroStatus"
+    class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 outline-none focus:border-blue-500"
+  >
+    <option value="TODOS">Todos</option>
+    <option value="EM ANDAMENTO">Em andamento</option>
+    <option value="RESOLVIDO">Resolvido</option>
+  </select>
+</div>
+      </div>
+    </div>
+
+    <!-- ===================================================
+         INFORMAÇÕES, BUSCA E ATUALIZAÇÃO
+         =================================================== -->
+
+    <div class="flex flex-col gap-4 mb-6">
+
+      <!-- CONTADOR E ÚLTIMA ATUALIZAÇÃO -->
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <p
+          id="contadorOcorrencias"
+          class="text-sm text-slate-400"
+        >
+          Carregando ocorrências...
+        </p>
+
+        <p
+          id="ultimaAtualizacao"
+          class="text-sm text-slate-500"
+        >
+        </p>
+      </div>
+
+      <!-- BUSCA E BOTÃO ATUALIZAR -->
+      <div class="flex flex-col sm:flex-row gap-3">
+
+        <div class="relative flex-1">
+          <input
+            id="buscaOcorrencia"
+            type="search"
+            placeholder="Buscar ocorrência pelo ID..."
+            class="w-full bg-slate-900 border border-slate-800 rounded-lg px-4 py-3 text-sm text-slate-200 placeholder-slate-500 outline-none focus:border-emerald-500"
+          >
+        </div>
+
+        <button
+          id="btnAtualizar"
+          type="button"
+          class="px-5 py-3 rounded-lg text-sm font-semibold bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20 transition whitespace-nowrap"
+        >
+          ↻ Atualizar
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- ===================================================
+         TABELA
+         =================================================== -->
+
+    <div
+      class="
+        bg-slate-900
+        border
+        border-slate-800
+        rounded-xl
+        overflow-hidden
+      "
+    >
+
+      <div class="overflow-x-auto">
+
+<table class="w-full min-w-[900px] text-sm">
+
+          <thead class="bg-slate-800">
+
+            <tr>
+
+              <th class="p-4 text-left">
+                ID
+              </th>
+
+              <th class="p-4 text-left">
+                Tipo de ocorrência
+              </th>
+
+              <th class="p-4 text-left">
+                Localização
+              </th>
+
+              <th class="p-4 text-left">
+                Data da ocorrência
+              </th>
+
+              <th class="p-4 text-left">
+                Status
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody id="tabelaOcorrencias">
+
+            <tr>
+
+              <td
+                colspan="5"
+                class="
+                  p-8
+                  text-center
+                  text-slate-500
+                "
+              >
+                Carregando...
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <script src="ocorrencias.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IDÁ — Painel do Agente</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      background: #f1f5f9;
+      font-family: Arial, sans-serif;
+    }
+
+    .ocorrencia {
+      transition: box-shadow 0.2s;
+    }
+
+    .ocorrencia:hover {
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen">
+
+  <header class="bg-slate-900 text-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-6 py-5 flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <h1 class="text-2xl font-bold">IDÁ</h1>
+        <p class="text-sm text-slate-300">
+          Painel do agente de fiscalização ambiental
+        </p>
+      </div>
+
+<!-- Foto de perfil na navbar -->
+<button
+  type="button"
+  aria-label="Perfil do agente"
+  title="Perfil do agente"
+  class="w-11 h-11 rounded-full overflow-hidden border-2 border-slate-500 hover:border-white transition"
+>
+  <img
+    src="https://i.ibb.co/BHYVKQ2W/unnamed.jpg"
+    alt="Foto de perfil do agente"
+    class="w-full h-full object-cover"
+  >
+</button>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto p-6">
+
+    <section class="mb-8">
+      <h2 class="text-2xl font-bold text-slate-800">
+        Central de atendimento
+      </h2>
+      <p class="text-slate-600 mt-2">
+        Consulte as ocorrências encaminhadas e registre sua resolução.
+      </p>
+    </section>
+
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+
+      <div class="bg-white rounded-xl p-5 shadow-sm">
+        <p class="text-sm text-slate-500">Em andamento</p>
+        <p id="totalAndamento" class="text-3xl font-bold text-blue-600">0</p>
+      </div>
+
+      <div class="bg-white rounded-xl p-5 shadow-sm">
+        <p class="text-sm text-slate-500">Prioridade crítica</p>
+        <p id="totalCriticas" class="text-3xl font-bold text-red-600">0</p>
+      </div>
+
+      <div class="bg-white rounded-xl p-5 shadow-sm">
+        <p class="text-sm text-slate-500">Resolvidas nesta sessão</p>
+        <p id="totalResolvidas" class="text-3xl font-bold text-green-600">0</p>
+      </div>
+
+    </section>
+
+    <section class="bg-white rounded-xl shadow-sm p-5 mb-6">
+      <div class="flex flex-col md:flex-row gap-3 justify-between">
+        <input
+          id="busca"
+          type="search"
+          placeholder="Buscar por ID, município, estado ou bioma..."
+          class="border border-slate-300 rounded-lg px-4 py-3 w-full md:max-w-xl"
+        >
+
+        <button
+          id="atualizar"
+          class="bg-slate-800 hover:bg-slate-700 text-white rounded-lg px-5 py-3 font-semibold"
+        >
+          Atualizar ocorrências
+        </button>
+      </div>
+
+      <p id="mensagem" role="status" class="text-sm text-slate-500 mt-4">
+        Carregando ocorrências...
+      </p>
+    </section>
+
+    <section>
+      <div id="listaOcorrencias" class="grid grid-cols-1 lg:grid-cols-2 gap-5"></div>
+    </section>
+
+  </main>
+
+  <script src="/agente.js"></script>
+</body>
+</html>
